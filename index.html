@@ -337,6 +337,8 @@
     let buttonsEnabledTime = '';
     let firstOptionClickTime = '';
     let lastDisplayedImage = '';
+    let dropdownOpened = '0';
+    let dropdownOpenCount = 0;
 
     let totalClicks = 0;
     let optionClicks = 0;
@@ -421,6 +423,12 @@
     trigger.addEventListener('click', () => {
       const isOpen = productSelect.classList.toggle('open');
       trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+      if (isOpen) {
+        dropdownOpened = '1';
+        dropdownOpenCount += 1;
+        decisionMessage.classList.remove('is-visible');
+      }
     });
 
     optionList.addEventListener('click', (event) => {
@@ -481,6 +489,14 @@
 
       if (action === 'add_to_cart' && !selectedProductName) {
         invalidButtonClicks += 1;
+        decisionMessage.textContent = 'please click the option before adding it to cart';
+        decisionMessage.classList.add('is-visible');
+        return;
+      }
+
+      if (action === 'leave' && dropdownOpened !== '1') {
+        invalidButtonClicks += 1;
+        decisionMessage.textContent = 'please review the options before leaving';
         decisionMessage.classList.add('is-visible');
         return;
       }
@@ -504,7 +520,9 @@
         pageOpenTime: pageOpenTime,
         buttonsShownTime: buttonsShownTime,
         buttonsEnabledTime: buttonsEnabledTime,
-        firstOptionClickTime: firstOptionClickTime
+        firstOptionClickTime: firstOptionClickTime,
+        dropdownOpened: dropdownOpened,
+        dropdownOpenCount: String(dropdownOpenCount)
       }, '*');
     });
 
