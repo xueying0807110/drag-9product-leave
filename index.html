@@ -339,6 +339,7 @@
     let lastDisplayedImage = '';
     let dropdownOpened = '0';
     let dropdownOpenCount = 0;
+    let optionReviewed = '0';
 
     let totalClicks = 0;
     let optionClicks = 0;
@@ -437,6 +438,7 @@
 
 
       optionClicks += 1;
+      optionReviewed = '1';
       trigger.innerHTML = '';
 
       const selectedName = document.createElement('span');
@@ -464,6 +466,8 @@
       const option = event.target.closest('.custom-option');
       if (!option) return;
 
+      optionReviewed = '1';
+      decisionMessage.classList.remove('is-visible');
       showProductImage(option.dataset.image, option.dataset.name, true);
     });
 
@@ -494,7 +498,7 @@
         return;
       }
 
-      if (action === 'leave' && dropdownOpened !== '1') {
+      if (action === 'leave' && optionReviewed !== '1') {
         invalidButtonClicks += 1;
         decisionMessage.textContent = 'please review the options before leaving';
         decisionMessage.classList.add('is-visible');
@@ -522,7 +526,8 @@
         buttonsEnabledTime: buttonsEnabledTime,
         firstOptionClickTime: firstOptionClickTime,
         dropdownOpened: dropdownOpened,
-        dropdownOpenCount: String(dropdownOpenCount)
+        dropdownOpenCount: String(dropdownOpenCount),
+        optionReviewed: optionReviewed
       }, '*');
     });
 
