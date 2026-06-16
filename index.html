@@ -336,9 +336,11 @@
     let buttonsShownTime = pageOpenTime;
     let buttonsEnabledTime = '';
     let firstOptionClickTime = '';
+    let lastDisplayedImage = '';
 
     let totalClicks = 0;
     let optionClicks = 0;
+    let imageSwitches = 0;
     let addToCartClicks = 0;
     let leaveClicks = 0;
     let invalidButtonClicks = 0;
@@ -371,13 +373,18 @@
       });
     }
 
-    function showProductImage(src, alt) {
+    function showProductImage(src, alt, countSwitch = false) {
       if (!src) return;
+
+      if (countSwitch && lastDisplayedImage !== src) {
+        imageSwitches += 1;
+      }
 
       preloadImage(src);
       productImage.src = src;
       productImage.alt = alt || '';
       productImage.classList.add('is-visible');
+      lastDisplayedImage = src;
     }
 
     function shuffleArray(array) {
@@ -449,7 +456,7 @@
       const option = event.target.closest('.custom-option');
       if (!option) return;
 
-      showProductImage(option.dataset.image, option.dataset.name);
+      showProductImage(option.dataset.image, option.dataset.name, true);
     });
 
     document.addEventListener('click', (event) => {
@@ -490,6 +497,7 @@
         noBuyOptionChosen: '0',
         totalClicks: String(totalClicks),
         optionClicks: String(optionClicks),
+        imageSwitches: String(imageSwitches),
         addToCartClicks: String(addToCartClicks),
         leaveClicks: String(leaveClicks),
         invalidButtonClicks: String(invalidButtonClicks),
