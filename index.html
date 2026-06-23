@@ -43,14 +43,14 @@
       margin: 0 auto;
       padding: 36px 16px 56px;
       display: grid;
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
       gap: 24px;
       align-items: stretch;
     }
 
     .image-panel {
       background: var(--soft);
-      min-height: 520px;
+      min-height: 568px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -77,7 +77,7 @@
 
     .details {
       padding-top: 4px;
-      min-height: 520px;
+      min-height: 568px;
       display: flex;
       flex-direction: column;
     }
@@ -242,6 +242,7 @@
       font-size: 14px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
+      white-space: nowrap;
       cursor: default;
     }
 
@@ -308,7 +309,7 @@
       <div class="decision-message" id="decisionMessage">please click the option before adding it to cart</div>
 
       <div class="button-row" id="buttonRow">
-        <button class="button" type="button" data-action="add_to_cart" disabled>Add to cart</button>
+        <button class="button" type="button" data-action="add_to_cart" disabled>Place an order</button>
         <button class="button" type="button" data-action="leave" disabled>Leave</button>
       </div>
 
