@@ -215,21 +215,25 @@
 
 
     .decision-message {
-      display: none;
-      margin-top: 10px;
+      display: block;
+      visibility: hidden;
+      margin: auto 0 12px;
+      padding: 0;
+      background: transparent;
+      border: 0;
       font-size: 13px;
       line-height: 1.4;
       color: #b00020;
     }
 
     .decision-message.is-visible {
-      display: block;
+      visibility: visible;
     }
 
     .button-row {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      margin-top: auto;
+      margin-top: 0;
       gap: 12px;
     }
 
@@ -306,7 +310,7 @@
         </div>
       </div>
 
-      <div class="decision-message" id="decisionMessage">please click the option before adding it to cart</div>
+      <div class="decision-message" id="decisionMessage">please click the option before placing an order</div>
 
       <div class="button-row" id="buttonRow">
         <button class="button" type="button" data-action="add_to_cart" disabled>Place an order</button>
@@ -494,7 +498,7 @@
 
       if (action === 'add_to_cart' && !selectedProductName) {
         invalidButtonClicks += 1;
-        decisionMessage.textContent = 'please click the option before adding it to cart';
+        decisionMessage.textContent = 'please click the option before placing an order';
         decisionMessage.classList.add('is-visible');
         return;
       }
