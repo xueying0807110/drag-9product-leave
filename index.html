@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -384,6 +384,12 @@
     document.addEventListener('click', () => {
       totalClicks += 1;
     });
+
+    document.addEventListener('click', (event) => {
+      if (!event.target.closest('.button')) {
+        hideTimeWarning();
+      }
+    }, true);
     const preloadedImages = new Map();
 
     function preloadImage(src) {
@@ -508,6 +514,7 @@
       const option = event.target.closest('.custom-option');
       if (!option) return;
 
+      hideTimeWarning();
       optionReviewed = '1';
       decisionMessage.classList.remove('is-visible');
       showProductImage(option.dataset.image, option.dataset.name, true);
