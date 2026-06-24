@@ -350,6 +350,8 @@
     let dropdownOpenCount = 0;
     let optionReviewed = '0';
     const reviewedOptions = new Set();
+    const hoveredOptions = new Set();
+    let hasClickedOption = false;
 
     let totalClicks = 0;
     let optionClicks = 0;
@@ -440,8 +442,8 @@
 
     function updateContinueEligibility() {
       const hasReviewedAnyOption = reviewedOptions.size > 0;
-      const hasReviewedAllOptions = totalOptionCount > 0 && reviewedOptions.size >= totalOptionCount;
-      const shouldEnableContinue = hasReviewedAnyOption && (timeElapsed || hasReviewedAllOptions);
+      const hasActivelyReviewed = hasClickedOption && hoveredOptions.size > 1;
+      const shouldEnableContinue = hasReviewedAnyOption && (timeElapsed || hasActivelyReviewed);
 
       if (!shouldEnableContinue || canContinue) return;
 
@@ -455,6 +457,13 @@
 
       reviewedOptions.add(option.dataset.index);
       updateContinueEligibility();
+    }
+
+    function markOptionHovered(option) {
+      if (!option || !option.dataset.index) return;
+
+      hoveredOptions.add(option.dataset.index);
+      markOptionReviewed(option);
     }
 
     trigger.addEventListener('click', () => {
@@ -477,6 +486,7 @@
 
       optionClicks += 1;
       optionReviewed = '1';
+      hasClickedOption = true;
       markOptionReviewed(option);
       trigger.innerHTML = '';
 
@@ -506,7 +516,7 @@
       if (!option) return;
 
       optionReviewed = '1';
-      markOptionReviewed(option);
+      markOptionHovered(option);
       decisionMessage.classList.remove('is-visible');
       showProductImage(option.dataset.image, option.dataset.name, true);
     });
@@ -530,10 +540,8 @@
       const action = button.dataset.action || '';
       if (!canContinue) {
         invalidButtonClicks += 1;
-        if (reviewedOptions.size === 0) {
-          decisionMessage.textContent = 'Please carefully review the products before continuing.';
-          decisionMessage.classList.add('is-visible');
-        }
+        decisionMessage.textContent = 'Please carefully review the products before continuing.';
+        decisionMessage.classList.add('is-visible');
         return;
       }
 
